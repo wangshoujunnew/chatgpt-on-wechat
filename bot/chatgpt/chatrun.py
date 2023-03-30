@@ -1,4 +1,4 @@
-import io,shutil
+import io, shutil
 from http.server import BaseHTTPRequestHandler, HTTPServer
 from urllib.parse import urlparse, parse_qs
 from urllib.parse import quote
@@ -8,12 +8,14 @@ import openai
 import json
 import os
 
+
 # 获取 api
 def get_api_key():
     return os.environ['api_key']
 
 
 openai.api_key = get_api_key()
+
 
 class ChatGPT:
     def __init__(self, user):
@@ -42,6 +44,7 @@ class ChatGPT:
         except Exception as e:
             print(f"错误代码：{e}")
 
+
 chat = ChatGPT('ives')
 
 
@@ -54,7 +57,7 @@ def f_query(q):
     if q == "0":
         print("*********退出程序**********")
         return 'ok'
-        
+
     elif q == "1":
         print("**************************")
         print("*********重置对话**********")
@@ -68,10 +71,10 @@ def f_query(q):
     out = f"【ChatGPT】{answer}"
     print(out)
     chat.writeTojson(out)
-    chat.messages.append({"role": "assistant", "content": answer})
+    # chat.messages.append({"role": "assistant", "content": answer})
 
     # 限制对话次数
-    if len(chat.messages) >= 4:
+    if len(chat.messages) >= 11:
         print("******************************")
         print("*********强制重置对话**********")
         print("******************************")
@@ -80,7 +83,7 @@ def f_query(q):
         chat = ChatGPT('ives')
 
     return answer
-        
+
 
 class SimpleHTTPRequestHandler(BaseHTTPRequestHandler):
     def do_GET(self):
@@ -97,7 +100,7 @@ class SimpleHTTPRequestHandler(BaseHTTPRequestHandler):
         message = str(result)
         self.wfile.write(bytes(message, "utf8"))
         return
-    
+
     def do_POST(self):
         # mpath, margs = urllib.splitquery(self.path)
         datas = self.rfile.read(int(self.headers['content-length']))
@@ -125,7 +128,6 @@ class SimpleHTTPRequestHandler(BaseHTTPRequestHandler):
         shutil.copyfileobj(f, self.wfile)
 
 
-
 def run(server_class=HTTPServer, handler_class=SimpleHTTPRequestHandler):
     server_address = ('', 8000)
     httpd = server_class(server_address, handler_class)
@@ -133,9 +135,6 @@ def run(server_class=HTTPServer, handler_class=SimpleHTTPRequestHandler):
     httpd.serve_forever()
 
 
-
-
-
 if __name__ == '__main__':
-    #curl http://localhost:8000/?query='你好'
+    # curl http://localhost:8000/?query='你好'
     run()
