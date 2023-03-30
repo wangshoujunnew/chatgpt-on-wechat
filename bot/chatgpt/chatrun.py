@@ -13,7 +13,7 @@ def get_api_key():
     return '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'
 
 
-# openai.api_key = get_api_key()
+openai.api_key = get_api_key()
 
 class ChatGPT:
     def __init__(self, user):
@@ -47,14 +47,6 @@ chat = ChatGPT('ives')
 
 def f_query(q):
     global chat
-    # 限制对话次数
-    if len(chat.messages) >= 11:
-        print("******************************")
-        print("*********强制重置对话**********")
-        print("******************************")
-        # 写入之前信息
-        # chat.writeTojson()
-        chat = ChatGPT('ives')
     # 提问
     chat.writeTojson(f"##【{chat.user}】" + q)
 
@@ -77,6 +69,16 @@ def f_query(q):
     print(out)
     chat.writeTojson(out)
     chat.messages.append({"role": "assistant", "content": answer})
+
+    # 限制对话次数
+    if len(chat.messages) >= 11:
+        print("******************************")
+        print("*********强制重置对话**********")
+        print("******************************")
+        # 写入之前信息
+        # chat.writeTojson()
+        chat = ChatGPT('ives')
+
     return answer
         
 
@@ -103,7 +105,7 @@ class SimpleHTTPRequestHandler(BaseHTTPRequestHandler):
         print(datas)
         query = datas['q']
         try:
-            result = '中国'
+            result = '中国' # result = f_query(q):
         except Exception as e:
             result = str(e)
         self.outputtxt(result)
