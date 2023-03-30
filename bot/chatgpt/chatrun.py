@@ -20,7 +20,7 @@ openai.api_key = get_api_key()
 class ChatGPT:
     def __init__(self, user):
         self.user = user
-        self.messages = [{"role": "system", "content": "一个有10年Python开发经验的资深算法工程师"}]
+        self.messages = []  # [{"role": "system", "content": "一个有10年Python开发经验的资深算法工程师"}]
         self.filename = "user_messages.md"
 
     def ask_gpt(self):
@@ -45,11 +45,11 @@ class ChatGPT:
             print(f"错误代码：{e}")
 
 
-chat = ChatGPT('ives')
+# chat = ChatGPT('ives')
 
 
 def f_query(q):
-    global chat
+    chat = ChatGPT('ives')
     # 提问
     chat.writeTojson(f"##【{chat.user}】" + q)
 
