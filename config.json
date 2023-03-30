@@ -1,5 +1,5 @@
 {
-  "open_ai_api_key": "xxxxx",
+  "open_ai_api_key": "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",
   "model": "gpt-3.5-turbo",
   "proxy": "",
   "use_azure_chatgpt": false,

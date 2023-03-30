@@ -63,7 +63,7 @@ class OpenAIBot(Bot, OpenAIImage):
                     reply = Reply(ReplyType.ERROR, retstring)
                 return reply
 
-    def reply_text(self, query, session_id, retry_count=0):
+    def reply_text(self, query, session_id, retry_count=0):  # SR@真正调用之处
         try:
             response = openai.Completion.create(
                 model= conf().get("model") or "text-davinci-003",  # 对话模型的名称

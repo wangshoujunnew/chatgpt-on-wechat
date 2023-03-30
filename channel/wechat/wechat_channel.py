@@ -136,7 +136,7 @@ class WechatChannel(Channel):
             content = content.replace(match_prefix, '', 1).strip()
         elif match_prefix is None:
             return
-        context = Context()
+        context = Context()  # SR@session_id人物对话ID
         context.kwargs = {'isgroup': False, 'msg': msg,
                           'receiver': other_user_id, 'session_id': other_user_id}
 
