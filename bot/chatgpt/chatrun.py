@@ -10,7 +10,7 @@ import os
 
 # 获取 api
 def get_api_key():
-    return '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'
+    return os.environ['api_key']
 
 
 openai.api_key = get_api_key()
