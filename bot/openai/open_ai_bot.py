@@ -11,7 +11,7 @@ from common.log import logger
 import openai
 import openai.error
 import time
-
+import requests
 user_session = dict()
 
 # OpenAI对话模型API (可用)
@@ -65,19 +65,24 @@ class OpenAIBot(Bot, OpenAIImage):
 
     def reply_text(self, query, session_id, retry_count=0):  # SR@真正调用之处
         try:
-            response = openai.Completion.create(
-                model= conf().get("model") or "text-davinci-003",  # 对话模型的名称
-                prompt=query,
-                temperature=0.9,  # 值在[0,1]之间，越大表示回复越具有不确定性
-                max_tokens=1200,  # 回复最大的字符数
-                top_p=1,
-                frequency_penalty=0.0,  # [-2,2]之间，该值越大则更倾向于产生不同的内容
-                presence_penalty=0.0,  # [-2,2]之间，该值越大则更倾向于产生不同的内容
-                stop=["\n\n\n"]
-            )
-            res_content = response.choices[0]['text'].strip().replace('<|endoftext|>', '')
-            total_tokens = response["usage"]["total_tokens"]
-            completion_tokens = response["usage"]["completion_tokens"]
+            response = requests.post('http://localhost:8000/', json={"q": query})
+
+            # response = openai.Completion.create(
+            #     model= conf().get("model") or "text-davinci-003",  # 对话模型的名称
+            #     prompt=query,
+            #     temperature=0.9,  # 值在[0,1]之间，越大表示回复越具有不确定性
+            #     max_tokens=1200,  # 回复最大的字符数
+            #     top_p=1,
+            #     frequency_penalty=0.0,  # [-2,2]之间，该值越大则更倾向于产生不同的内容
+            #     presence_penalty=0.0,  # [-2,2]之间，该值越大则更倾向于产生不同的内容
+            #     stop=["\n\n\n"]
+            # )
+            # res_content = response.choices[0]['text'].strip().replace('<|endoftext|>', '')
+            # total_tokens = response["usage"]["total_tokens"]
+            # completion_tokens = response["usage"]["completion_tokens"]
+            res_content = response.text
+            total_tokens = 100
+            completion_tokens = 1
             logger.info("[OPEN_AI] reply={}".format(res_content))
             return total_tokens, completion_tokens, res_content
         except Exception as e:

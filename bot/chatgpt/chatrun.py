@@ -105,7 +105,7 @@ class SimpleHTTPRequestHandler(BaseHTTPRequestHandler):
         print(datas)
         query = datas['q']
         try:
-            result = '中国' # result = f_query(q):
+            result = f_query(query)
         except Exception as e:
             result = str(e)
         self.outputtxt(result)
