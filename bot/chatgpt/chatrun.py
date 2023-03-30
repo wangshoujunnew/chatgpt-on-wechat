@@ -71,7 +71,7 @@ def f_query(q):
     chat.messages.append({"role": "assistant", "content": answer})
 
     # 限制对话次数
-    if len(chat.messages) >= 11:
+    if len(chat.messages) >= 4:
         print("******************************")
         print("*********强制重置对话**********")
         print("******************************")
